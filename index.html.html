@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ты очень важна для меня... ✨</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Playfair Display (Romantic Serif) & Plus Jakarta Sans (Modern Clean Sans) -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* Base Theme Variable Definitions */
+        :root {
+            --bg-gradient: linear-gradient(135deg, #2a0825 0%, #4a1235 40%, #1a0b2e 80%, #0d0614 100%);
+            --glass-bg: rgba(255, 255, 255, 0.08);
+            --glass-border: rgba(255, 255, 255, 0.18);
+            --accent-primary: #f472b6;
+            --accent-secondary: #fb7185;
+            --text-glow: rgba(244, 114, 182, 0.5);
+            --card-back-bg: linear-gradient(135deg, rgba(74, 18, 53, 0.95), rgba(26, 11, 46, 0.95));
+            --particle-1: #f472b6;
+            --particle-2: #fb7185;
+        }
+
+        /* 4 Color Themes */
+        body.theme-velvet {
+            --bg-gradient: linear-gradient(135deg, #2a0825 0%, #4a1235 40%, #1a0b2e 80%, #0d0614 100%);
+            --glass-bg: rgba(255, 255, 255, 0.08);
+            --glass-border: rgba(244, 114, 182, 0.25);
+            --accent-primary: #f472b6;
+            --accent-secondary: #fb7185;
+            --text-glow: rgba(244, 114, 182, 0.5);
+            --card-back-bg: linear-gradient(135deg, rgba(74, 18, 53, 0.95), rgba(26, 11, 46, 0.95));
+            --particle-1: #f472b6;
+            --particle-2: #e879f9;
+        }
+
+        body.theme-midnight {
+            --bg-gradient: linear-gradient(135deg, #1e1b4b 0%, #311b92 40%, #1e293b 80%, #0f172a 100%);
+            --glass-bg: rgba(255, 255, 255, 0.08);
+            --glass-border: rgba(192, 132, 252, 0.25);
+            --accent-primary: #c084fc;
+            --accent-secondary: #818cf8;
+            --text-glow: rgba(192, 132, 252, 0.5);
+            --card-back-bg: linear-gradient(135deg, rgba(49, 27, 146, 0.95), rgba(30, 41, 59, 0.95));
+            --particle-1: #c084fc;
+            --particle-2: #818cf8;
+        }
+
+        body.theme-emerald {
+            --bg-gradient: linear-gradient(135deg, #022c22 0%, #064e3b 40%, #0f5132 75%, #021a12 100%);
+            --glass-bg: rgba(255, 255, 255, 0.08);
+            --glass-border: rgba(52, 211, 153, 0.25);
+            --accent-primary: #34d399;
+            --accent-secondary: #f472b6;
+            --text-glow: rgba(52, 211, 153, 0.5);
+            --card-back-bg: linear-gradient(135deg, rgba(6, 78, 59, 0.95), rgba(15, 118, 110, 0.95));
+            --particle-1: #34d399;
+            --particle-2: #6ee7b7;
+        }
+
+        body.theme-sunset {
+            --bg-gradient: linear-gradient(135deg, #450a0a 0%, #78350f 40%, #831843 80%, #2a080c 100%);
+            --glass-bg: rgba(255, 255, 255, 0.08);
+            --glass-border: rgba(251, 146, 60, 0.25);
+            --accent-primary: #fb923c;
+            --accent-secondary: #f43f5e;
+            --text-glow: rgba(251, 146, 60, 0.5);
+            --card-back-bg: linear-gradient(135deg, rgba(159, 18, 57, 0.95), rgba(180, 83, 9, 0.95));
+            --particle-1: #fb923c;
+            --particle-2: #f43f5e;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: var(--bg-gradient);
+            min-height: 100vh;
+            color: #f8fafc;
+            overflow-x: hidden;
+            transition: background 0.8s ease-in-out;
+        }
+
+        .heading-serif {
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* Glassmorphism styling */
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+            transition: border-color 0.5s ease, background 0.5s ease;
+        }
+
+        /* Card Flip Effect */
+        .flip-card {
+            perspective: 1000px;
+        }
+
+        .flip-card-inner {
+            transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform-style: preserve-3d;
+        }
+
+        .flip-card.flipped .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .flip-card-front, .flip-card-back {
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+        }
+
+        .flip-card-back {
+            transform: rotateY(180deg);
+            background: var(--card-back-bg);
+        }
+
+        /* Pulse Animation */
+        @keyframes softPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.06); }
+            100% { transform: scale(1); }
+        }
+
+        .animate-soft-pulse {
+            animation: softPulse 3s infinite ease-in-out;
+        }
+
+        .dynamic-glow {
+            filter: drop-shadow(0 0 25px var(--text-glow));
+        }
+
+        .dynamic-btn {
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            transition: all 0.3s ease;
+        }
+
+        .dynamic-btn:hover {
+            box-shadow: 0 0 25px var(--text-glow);
+            transform: translateY(-2px);
+        }
+
+        canvas#bgCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 1;
+        }
+    </style>
+</head>
+<body class="theme-velvet relative flex flex-col items-center justify-start min-h-screen px-4 py-8 antialiased">
+
+    <!-- Interactive Background Canvas -->
+    <canvas id="bgCanvas"></canvas>
+
+    <!-- Top Toolbar (Palette Switcher & Audio Player) -->
+    <header class="fixed top-4 left-0 right-0 z-50 px-4 max-w-4xl mx-auto flex items-center justify-between pointer-events-none">
+        <!-- Palette Selector -->
+        <div class="glass-card flex items-center gap-1.5 p-1.5 rounded-full pointer-events-auto shadow-xl">
+            <button onclick="changeTheme('theme-velvet')" title="Бархатный розовый" class="w-7 h-7 rounded-full bg-gradient-to-r from-pink-500 to-rose-500 border-2 border-white/40 hover:scale-110 transition-transform"></button>
+            <button onclick="changeTheme('theme-midnight')" title="Полуночный фиолетовый" class="w-7 h-7 rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 border-2 border-white/40 hover:scale-110 transition-transform"></button>
+            <button onclick="changeTheme('theme-emerald')" title="Изумрудная сказка" class="w-7 h-7 rounded-full bg-gradient-to-r from-emerald-600 to-teal-500 border-2 border-white/40 hover:scale-110 transition-transform"></button>
+            <button onclick="changeTheme('theme-sunset')" title="Теплый закат" class="w-7 h-7 rounded-full bg-gradient-to-r from-amber-600 to-rose-500 border-2 border-white/40 hover:scale-110 transition-transform"></button>
+        </div>
+
+        <!-- Audio Player Button -->
+        <button id="audioBtn" class="glass-card flex items-center gap-2.5 px-4 py-2 rounded-full text-slate-100 hover:bg-white/10 transition-all duration-300 shadow-xl pointer-events-auto group">
+            <i id="audioIcon" class="fas fa-music text-pink-300 group-hover:scale-110 transition-transform"></i>
+            <span id="audioText" class="text-xs font-semibold tracking-wide hidden sm:inline">Музыка 🎵</span>
+        </button>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="relative z-10 w-full max-w-3xl mx-auto flex flex-col gap-10 my-auto pt-16 pb-12">
+
+        <!-- Hero Section -->
+        <section id="heroStage" class="glass-card rounded-3xl p-8 md:p-12 text-center flex flex-col items-center gap-6 border border-white/15">
+            <div class="relative cursor-pointer group" onclick="triggerBurst()">
+                <div class="absolute -inset-4 rounded-full bg-pink-500/20 blur-xl group-hover:bg-pink-500/40 transition duration-500"></div>
+                <div class="relative text-7xl md:text-8xl animate-soft-pulse dynamic-glow">
+                    🌸✨
+                </div>
+            </div>
+
+            <h1 class="heading-serif text-3xl md:text-5xl font-bold tracking-wide text-white mt-2 italic">
+                Дорогая моя...
+            </h1>
+
+            <p class="text-slate-200 text-base md:text-lg leading-relaxed max-w-xl font-light">
+                Твое тепло и присутствие в моей жизни — это нечто действительно особенное. Мне ужасно жаль, если я расстроил тебя или поступил не так, как следовало. Ты невероятно важна для меня.
+            </p>
+
+            <button onclick="scrollToSection('reasonsStage')" class="dynamic-btn mt-2 px-8 py-3.5 rounded-full text-white font-medium shadow-lg hover:scale-105 active:scale-95 flex items-center gap-3">
+                <span>Прочитать мысли</span>
+                <i class="fas fa-chevron-down text-sm"></i>
+            </button>
+        </section>
+
+        <!-- 3D Flip Cards (Искренние слова) -->
+        <section id="reasonsStage" class="flex flex-col gap-6">
+            <div class="text-center">
+                <h2 class="heading-serif text-2xl md:text-4xl font-bold text-white italic">То, что на сердце</h2>
+                <p class="text-slate-300 text-xs md:text-sm mt-1">Коснись карточки, чтобы узнать ответ</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Card 1 -->
+                <div class="flip-card h-64 w-full cursor-pointer" onclick="toggleCard(this)">
+                    <div class="flip-card-inner relative w-full h-full rounded-2xl shadow-xl">
+                        <div class="flip-card-front glass-card absolute inset-0 rounded-2xl p-6 flex flex-col items-center justify-center text-center gap-4">
+                            <i class="fas fa-heart-broken text-4xl text-rose-400"></i>
+                            <h3 class="heading-serif text-lg font-semibold text-white">Моя ошибка</h3>
+                            <span class="text-xs text-slate-400 uppercase tracking-widest font-medium">Открыть</span>
+                        </div>
+                        <div class="flip-card-back absolute inset-0 rounded-2xl p-6 flex flex-col items-center justify-center text-center border border-white/20">
+                            <p class="text-sm text-slate-100 leading-relaxed font-normal">
+                                Я осознаю, что оступился и был неправ. Мне искренне больно от мысли, что я мог вызвать у тебя хотя бы каплю грусти.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="flip-card h-64 w-full cursor-pointer" onclick="toggleCard(this)">
+                    <div class="flip-card-inner relative w-full h-full rounded-2xl shadow-xl">
+                        <div class="flip-card-front glass-card absolute inset-0 rounded-2xl p-6 flex flex-col items-center justify-center text-center gap-4">
+                            <i class="fas fa-sparkles text-4xl text-amber-300"></i>
+                            <h3 class="heading-serif text-lg font-semibold text-white">Твоя ценность</h3>
+                            <span class="text-xs text-slate-400 uppercase tracking-widest font-medium">Открыть</span>
+                        </div>
+                        <div class="flip-card-back absolute inset-0 rounded-2xl p-6 flex flex-col items-center justify-center text-center border border-white/20">
+                            <p class="text-sm text-slate-100 leading-relaxed font-normal">
+                                Твоя улыбка и твой смех делают мои дни светлее. Отношения с тобой — это самая прекрасная и дорогая часть моей жизни.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="flip-card h-64 w-full cursor-pointer" onclick="toggleCard(this)">
+                    <div class="flip-card-inner relative w-full h-full rounded-2xl shadow-xl">
+                        <div class="flip-card-front glass-card absolute inset-0 rounded-2xl p-6 flex flex-col items-center justify-center text-center gap-4">
+                            <i class="fas fa-hand-holding-heart text-4xl text-pink-400"></i>
+                            <h3 class="heading-serif text-lg font-semibold text-white">Мое обещание</h3>
+                            <span class="text-xs text-slate-400 uppercase tracking-widest font-medium">Открыть</span>
+                        </div>
+                        <div class="flip-card-back absolute inset-0 rounded-2xl p-6 flex flex-col items-center justify-center text-center border border-white/20">
+                            <p class="text-sm text-slate-100 leading-relaxed font-normal">
+                                Я хочу окружить тебя вниманием, нежностью и заботой. Я сделаю всё, чтобы мы больше никогда не возвращались к плохому.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Interactive Choice -->
+        <section id="quizStage" class="glass-card rounded-3xl p-8 md:p-12 text-center flex flex-col items-center gap-8 relative overflow-hidden">
+            <h2 class="heading-serif text-3xl md:text-4xl font-bold text-white italic">Простишь меня? 🥺</h2>
+            <p class="text-slate-200 -mt-4 text-sm md:text-base font-light">Позволь мне исправиться и сделать тебя счастливее</p>
+
+            <div id="buttonArea" class="relative w-full min-h-[160px] flex flex-wrap items-center justify-center gap-6 mt-2">
+                <!-- Forgive Button -->
+                <button id="yesBtn" onclick="handleForgive()" class="z-20 px-9 py-4 rounded-full bg-gradient-to-r from-pink-500 via-rose-500 to-red-500 text-white font-semibold text-lg shadow-xl hover:scale-105 active:scale-95 transition-all duration-300">
+                    Конечно простила ❤️
+                </button>
+
+                <!-- Dynamic Refusal Button -->
+                <button id="noBtn" onclick="handleNoClick()" class="z-20 px-6 py-3.5 rounded-full bg-slate-800/80 hover:bg-slate-700/90 text-slate-300 font-medium text-sm md:text-base border border-slate-600 transition-all duration-200 shadow-md">
+                    Я ещё подумаю 💔
+                </button>
+            </div>
+        </section>
+
+        <!-- Celebration Section -->
+        <section id="celebrationStage" class="hidden glass-card rounded-3xl p-8 md:p-12 text-center flex-col items-center gap-6 border-2 border-pink-400/50 bg-slate-950/90 shadow-2xl">
+            <div class="text-6xl animate-bounce">💖 ✨ 🌹</div>
+            <h2 class="heading-serif text-3xl md:text-5xl font-extrabold text-pink-200 italic">
+                Спасибо тебе, родная...
+            </h2>
+            <p class="text-base md:text-lg text-slate-100 max-w-lg leading-relaxed font-light">
+                Твое прощение — самый ценный подарок для меня. Я обещаю беречь нашу связь, ценить каждое мгновение вместе и дарить тебе только радость и тепло.
+            </p>
+            <div class="p-5 rounded-2xl bg-white/5 border border-white/10 text-pink-200 text-sm font-serif italic max-w-md">
+                «Настоящая чуткость заключается не в отсутствии ошибок, а в умении слушать сердцем, прощать и становиться еще ближе...»
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="relative z-10 text-center text-slate-400 text-xs py-6 font-light">
+        Сделано с любовью и искренностью ❤️
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        /* ----------------------------------------------------
+         * Theme Switcher Logic
+         * ---------------------------------------------------- */
+        const themeParticleColors = {
+            'theme-velvet': ['#f472b6', '#fb7185', '#e879f9', '#ffffff'],
+            'theme-midnight': ['#c084fc', '#818cf8', '#38bdf8', '#ffffff'],
+            'theme-emerald': ['#34d399', '#6ee7b7', '#f472b6', '#ffffff'],
+            'theme-sunset': ['#fb923c', '#f43f5e', '#fbbf24', '#ffffff']
+        };
+
+        let currentTheme = 'theme-velvet';
+
+        function changeTheme(themeName) {
+            document.body.className = `${themeName} relative flex flex-col items-center justify-start min-h-screen px-4 py-8 antialiased`;
+            currentTheme = themeName;
+        }
+
+        /* ----------------------------------------------------
+         * Interactive Background Canvas (Hearts & Floating Lights)
+         * ---------------------------------------------------- */
+        const canvas = document.getElementById('bgCanvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = canvas.height + Math.random() * 100;
+                this.size = Math.random() * 12 + 6;
+                this.speedY = Math.random() * 1.0 + 0.3;
+                this.speedX = (Math.random() - 0.5) * 0.5;
+                this.opacity = Math.random() * 0.6 + 0.2;
+                this.isHeart = Math.random() > 0.4;
+                this.rotation = Math.random() * Math.PI * 2;
+                this.rotSpeed = (Math.random() - 0.5) * 0.02;
+            }
+
+            update() {
+                this.y -= this.speedY;
+                this.x += this.speedX;
+                this.rotation += this.rotSpeed;
+                if (this.y < -30) this.reset();
+            }
+
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate(this.rotation);
+                ctx.globalAlpha = this.opacity;
+
+                const colors = themeParticleColors[currentTheme] || themeParticleColors['theme-velvet'];
+                ctx.fillStyle = colors[Math.floor(Math.random() * colors.length)];
+
+                if (this.isHeart) {
+                    // Draw Heart shape
+                    const h = this.size;
+                    ctx.beginPath();
+                    ctx.moveTo(0, 0);
+                    ctx.bezierCurveTo(-h / 2, -h / 2, -h, h / 3, 0, h);
+                    ctx.bezierCurveTo(h, h / 3, h / 2, -h / 2, 0, 0);
+                    ctx.fill();
+                } else {
+                    // Draw soft glowing circle
+                    ctx.beginPath();
+                    ctx.arc(0, 0, this.size / 3, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+                ctx.restore();
+            }
+        }
+
+        for (let i = 0; i < 50; i++) {
+            particles.push(new Particle());
+        }
+
+        /* Fireworks Confetti & Hearts Effect */
+        let confetti = [];
+        let celebrating = false;
+
+        class HeartBurst {
+            constructor(x, y) {
+                this.x = x || canvas.width / 2;
+                this.y = y || canvas.height / 2;
+                this.size = Math.random() * 14 + 6;
+                this.speedX = (Math.random() - 0.5) * 14;
+                this.speedY = (Math.random() - 0.5) * 14 - 3;
+                const colors = themeParticleColors[currentTheme];
+                this.color = colors[Math.floor(Math.random() * colors.length)];
+                this.opacity = 1;
+                this.gravity = 0.12;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                this.speedY += this.gravity;
+                this.opacity -= 0.007;
+            }
+            draw() {
+                ctx.save();
+                ctx.globalAlpha = Math.max(0, this.opacity);
+                ctx.fillStyle = this.color;
+                const h = this.size;
+                ctx.translate(this.x, this.y);
+                ctx.beginPath();
+                ctx.moveTo(0, 0);
+                ctx.bezierCurveTo(-h / 2, -h / 2, -h, h / 3, 0, h);
+                ctx.bezierCurveTo(h, h / 3, h / 2, -h / 2, 0, 0);
+                ctx.fill();
+                ctx.restore();
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+
+            if (celebrating) {
+                confetti.forEach((c, index) => {
+                    c.update();
+                    c.draw();
+                    if (c.opacity <= 0) confetti.splice(index, 1);
+                });
+            }
+
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+        /* ----------------------------------------------------
+         * Audio Synth Player (Web Audio API - Romantic Melodic Chords)
+         * ---------------------------------------------------- */
+        let audioCtx = null;
+        let isPlaying = false;
+        let audioInterval = null;
+
+        const audioBtn = document.getElementById('audioBtn');
+        const audioIcon = document.getElementById('audioIcon');
+        const audioText = document.getElementById('audioText');
+
+        function playSoftChord() {
+            if (!audioCtx || !isPlaying) return;
+            
+            // Warm romantic chord progressions (Fmaj7, Cmaj7, Am7, G6)
+            const chords = [
+                [174.61, 220.00, 261.63, 329.63, 349.23], // Fmaj7
+                [261.63, 329.63, 392.00, 493.88, 523.25], // Cmaj7
+                [220.00, 261.63, 329.63, 392.00, 440.00], // Am7
+                [196.00, 246.94, 293.66, 329.63, 392.00]  // G6
+            ];
+            
+            const chord = chords[Math.floor(Math.random() * chords.length)];
+            
+            chord.forEach((freq, idx) => {
+                setTimeout(() => {
+                    if (!isPlaying) return;
+                    try {
+                        const osc = audioCtx.createOscillator();
+                        const gain = audioCtx.createGain();
+                        
+                        osc.type = 'sine';
+                        osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+                        
+                        gain.gain.setValueAtTime(0.001, audioCtx.currentTime);
+                        gain.gain.exponentialRampToValueAtTime(0.05, audioCtx.currentTime + 0.15);
+                        gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 3.5);
+                        
+                        osc.connect(gain);
+                        gain.connect(audioCtx.destination);
+                        
+                        osc.start();
+                        osc.stop(audioCtx.currentTime + 3.6);
+                    } catch(e){}
+                }, idx * 280);
+            });
+        }
+
+        audioBtn.addEventListener('click', () => {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+
+            isPlaying = !isPlaying;
+
+            if (isPlaying) {
+                audioIcon.className = "fas fa-heart text-pink-300 animate-pulse";
+                audioText.innerText = "Играет 🎶";
+                playSoftChord();
+                audioInterval = setInterval(playSoftChord, 4200);
+            } else {
+                audioIcon.className = "fas fa-music text-pink-300";
+                audioText.innerText = "Музыка 🎵";
+                clearInterval(audioInterval);
+            }
+        });
+
+        /* ----------------------------------------------------
+         * Dynamic Refusal Button Logic (Changing Messages on Clicks)
+         * ---------------------------------------------------- */
+        const refusalPhrases = [
+            "Ты уверена? 🥺",
+            "Ну пожалуйста... 👉👈",
+            "Подумай ещё разок! 💖",
+            "Я исправлюсь, честно!",
+            "Дай мне шанс! ✨",
+            "С меня самый вкусный кофе и десерт! ☕️🧁",
+            "Я же вижу, ты улыбнулась! 😊",
+            "Ну всё, жми «Конечно простила»! ❤️"
+        ];
+
+        let phraseIndex = 0;
+        let yesScale = 1;
+        const noBtn = document.getElementById('noBtn');
+        const yesBtn = document.getElementById('yesBtn');
+
+        function handleNoClick() {
+            // Update button text dynamically on every tap/click
+            noBtn.innerText = refusalPhrases[phraseIndex];
+            phraseIndex = (phraseIndex + 1) % refusalPhrases.length;
+
+            // Make "Forgive" button continuously grow larger
+            yesScale += 0.14;
+            yesBtn.style.transform = `scale(${yesScale})`;
+
+            // Smooth playfulness positioning offset
+            const randomOffsetX = (Math.random() - 0.5) * 60;
+            const randomOffsetY = (Math.random() - 0.5) * 30;
+            noBtn.style.transform = `translate(${randomOffsetX}px, ${randomOffsetY}px)`;
+        }
+
+        /* ----------------------------------------------------
+         * Actions & Navigation Logic
+         * ---------------------------------------------------- */
+        function scrollToSection(id) {
+            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function toggleCard(cardElement) {
+            cardElement.classList.toggle('flipped');
+        }
+
+        function triggerBurst() {
+            celebrating = true;
+            for (let i = 0; i < 30; i++) {
+                confetti.push(new HeartBurst());
+            }
+        }
+
+        /* Forgiveness Action */
+        function handleForgive() {
+            celebrating = true;
+            for (let i = 0; i < 180; i++) {
+                confetti.push(new HeartBurst());
+            }
+
+            const quizStage = document.getElementById('quizStage');
+            const celebrationStage = document.getElementById('celebrationStage');
+
+            quizStage.style.display = 'none';
+            celebrationStage.classList.remove('hidden');
+            celebrationStage.classList.add('flex');
+            celebrationStage.scrollIntoView({ behavior: 'smooth' });
+
+            if (!isPlaying) {
+                audioBtn.click();
+            }
+        }
+    </script>
+</body>
+</html>
